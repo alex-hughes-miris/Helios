@@ -1,0 +1,6 @@
+address   = "unix:///run/containerd/containerd.sock"  # host socket you mounted
+namespace = "default"                                 # or "buildkit", etc.
+cni_path = "/opt/cni/bin"
+# (Optional) other defaults:
+# snapshotter = "overlayfs"
+# cgroup_manager = "cgroupfs"

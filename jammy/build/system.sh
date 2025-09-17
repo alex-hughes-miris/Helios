@@ -43,6 +43,27 @@ rm -f /etc/xdg/autostart/xscreensaver.desktop
 # build locale
 /usr/sbin/locale-gen en_US.UTF-8
 
+# - - - - - - - - - - - - #
+# Add support for docker via nerdctl
+
+# Get latest nerdctl
+LATEST_TAG=$(curl -s https://api.github.com/repos/containerd/nerdctl/releases/latest \
+  | grep '"tag_name":' \
+  | sed -E 's/.*"v([^"]+)".*/\1/')
+
+URL="https://github.com/containerd/nerdctl/releases/download/v${LATEST_TAG}/nerdctl-${LATEST_TAG}-linux-amd64.tar.gz"
+echo "Downloading nerdctl v${LATEST_TAG} from:"
+echo "$URL"
+curl -LO "$URL"
+tar -zxf nerdctl-${LATEST_TAG}-linux-amd64.tar.gz nerdctl
+mv nerdctl /usr/bin/nerdctl
+chmod 777 /usr/bin/nerdctl
+
+rm nerdctl-${LATEST_TAG}-linux-amd64.tar.gz
+
+# Install sudo
+apt install sudo
+
 # run clean up
 apt clean -y
 apt autoclean -y
