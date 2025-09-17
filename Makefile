@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: docs jammy kali noble rocky-9 alma-9 bookworm sid alpine-3 packages
+.PHONY: docs jammy kali noble rocky-9 alma-9 bookworm sid alpine-3 packages docker-support
 
 # documentation
 docs: .venv/bin/activate
@@ -69,3 +69,7 @@ alma-9:
 	@docker compose build --build-arg IMAGE=almalinux:9 --build-arg SRC=alma-9
 	@docker compose up
 
+# Miris Assetpipeline
+docker-support:
+	@docker compose build --build-arg IMAGE=ubuntu:jammy --build-arg SRC=docker-support
+	@docker compose up
