@@ -2,8 +2,9 @@
 # Minimal docker shim -> nerdctl
 #
 unset LD_PRELOAD
+username=$USER
 exec sudo /usr/bin/nerdctl \
-  --namespace "${NERDCTL_NAMESPACE:-docker}" \
+  --namespace "${NERDCTL_NAMESPACE:-$username}" \
   --data-root "${NERDCTL_DATA_ROOT:-/var/lib/nerdctl}" \
   --cni-path "${CNI_BIN_DIR:-/opt/cni/bin}" \
   --cni-netconfpath "${CNI_CONF_DIR:-/etc/cni/net.d}" \

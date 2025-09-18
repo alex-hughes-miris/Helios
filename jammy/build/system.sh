@@ -61,6 +61,17 @@ chmod 777 /usr/bin/nerdctl
 
 rm nerdctl-${LATEST_TAG}-linux-amd64.tar.gz
 
+# Buildctl support
+LATEST_TAG=$(curl -s https://api.github.com/repos/containerd/nerdctl/releases/latest \
+  | grep '"tag_name":' \
+  | sed -E 's/.*"v([^"]+)".*/\1/')
+arch=$(uname -m); case "$arch" in x86_64) arch=amd64;; aarch64) arch=arm64;; *) echo "Unsupported arch: $arch"; exit 1;; esac
+curl -fsSL -o /tmp/buildkit.tgz "https://github.com/moby/buildkit/releases/download/${LATEST_TAG}/buildkit-${LATEST_TAG}.linux-$arch.tar.gz"
+tar -xzf /tmp/buildkit.tgz -C /tmp
+sudo mv /tmp/bin/buildctl /usr/local/bin/
+buildctl --version
+
+
 # Install sudo
 apt install sudo
 
